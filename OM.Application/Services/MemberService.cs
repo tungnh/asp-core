@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OM.Application.Data.Queries;
 using OM.Application.Data.Repositories;
+using OM.Domain;
 
 namespace OM.Application.Services
 {
@@ -11,14 +13,17 @@ namespace OM.Application.Services
     {
         private readonly IMemberRepository _memberRepository;
 
-        public MemberService(IMemberRepository memberRepository)
+        private readonly IMemberQuery _memberQuery;
+
+        public MemberService(IMemberRepository memberRepository, IMemberQuery memberQuery)
         {
             this._memberRepository = memberRepository;
+            this._memberQuery = memberQuery;
         }
 
-        List<Domain.Member> IMemberService.GetAllMembers()
+        public List<Member> GetAllMembers()
         {
-            return this._memberRepository.FindAll().ToList();
+            return this._memberQuery.GetAllMembers();
         }
     }
 }

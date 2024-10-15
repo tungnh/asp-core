@@ -1,8 +1,8 @@
 ﻿using OM.Domain;
 
-namespace OM.Application.Services
+namespace OM.Application.Data.Queries
 {
-    public interface IMemberService
+    public interface IMemberQuery
     {
         List<Member> GetAllMembers();
     }

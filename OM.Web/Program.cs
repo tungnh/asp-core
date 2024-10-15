@@ -1,25 +1,27 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OM.Application.Data.Queries;
 using OM.Application.Data.Repositories;
 using OM.Application.Services;
+using OM.Domain;
 using OM.Infrastructure.Data;
+using OM.Infrastructure.Data.Queries;
 using OM.Infrastructure.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
-// Add DbContext
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser<int>>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<Role>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+// Identity configure
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -51,6 +53,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
+
+// Add queries
+builder.Services.AddScoped<IMemberQuery, MemberQuery>();
 
 // Add repositories
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
