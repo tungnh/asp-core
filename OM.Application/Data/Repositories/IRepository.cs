@@ -14,60 +14,60 @@ namespace OM.Application.Data.Repositories
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
         /// Gets all objects from database
         /// </summary>
-        IEnumerable<TEntity> FindAll();
+        Task<IEnumerable<TEntity>> FindAll();
 
         /// <summary>
         /// Find object by Expression.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> FindAll(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
         /// Create a new object to database.
         /// </summary>
         /// <param name="t">Specified a new object to create.</param>
-        int Add(TEntity t);
+        Task<int> Add(TEntity t);
 
         /// <summary>
         /// Delete the object from database.
         /// </summary>
         /// <param name="t">Specified a existing object to delete.</param>        
-        int Delete(TEntity t);
+        Task<int> Delete(TEntity t);
 
         /// <summary>
         /// Delete the object from database.
         /// </summary>
         /// <param name="id">Specified a existing id object to delete.</param>        
-        int Delete(Guid id);
+        Task<int> Delete(Guid id);
 
         /// <summary>
         /// Update object changes and save to database.
         /// </summary>
         /// <param name="t">Specified the object to save.</param>
-        int Update(TEntity t);
+        Task<int> Update(TEntity t);
 
         /// <summary>
         /// Update objects changes and save to database.
         /// </summary>
         /// <param name="entities">Specified the object to save.</param>
-        int AddRange(IEnumerable<TEntity> entities);
+        Task<int> AddRange(IEnumerable<TEntity> entities);
 
         /// <summary>
         /// Update objects changes and save to database.
         /// </summary>
         /// <param name="entities"></param>
-        int UpdateRange(IEnumerable<TEntity> entities);
+        Task<int> UpdateRange(IEnumerable<TEntity> entities);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="entities"></param>
-        int RemoveRange(IEnumerable<TEntity> entities);
+        Task<int> RemoveRange(IEnumerable<TEntity> entities);
     }
 }

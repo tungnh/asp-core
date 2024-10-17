@@ -1,4 +1,5 @@
-﻿using OM.Application.Data.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using OM.Application.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,54 +18,65 @@ namespace OM.Infrastructure.Data.Repositories
             _context = context;
         }
 
-        public int Add(TEntity t)
+        public async Task<int> Add(TEntity t)
         {
-            throw new NotImplementedException();
+            await _context.Set<TEntity>().AddAsync(t);
+            return await _context.SaveChangesAsync();
         }
 
-        public int AddRange(IEnumerable<TEntity> entities)
+        public async Task<int> AddRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            await _context.Set<TEntity>().AddRangeAsync(entities);
+            return await _context.SaveChangesAsync();
         }
 
-        public int Delete(TEntity t)
+        public async Task<int> Delete(TEntity t)
         {
-            throw new NotImplementedException();
+            _context.Attach(t);
+            _context.Set<TEntity>().Remove(t);
+            return await _context.SaveChangesAsync();
         }
 
-        public int Delete(Guid id)
+        public async Task<int> Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var entityDelete = await _context.Set<TEntity>().FindAsync(id);
+            _context.Attach(entityDelete);
+            _context.Set<TEntity>().Remove(entityDelete);
+            return await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<TEntity> FindAll()
+        public async Task<IEnumerable<TEntity>> FindAll()
         {
-            return _context.Set<TEntity>().ToList(); 
+            return await _context.Set<TEntity>().AsNoTracking().ToListAsync(); 
         }
 
-        public IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> FindAll(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _context.Set<TEntity>().Where(predicate).AsNoTracking().ToListAsync();
         }
 
-        public int RemoveRange(IEnumerable<TEntity> entities)
+        public async Task<int> RemoveRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _context.AttachRange(entities);
+            _context.Set<TEntity>().RemoveRange(entities);
+            return await _context.SaveChangesAsync();
         }
 
-        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _context.Set<TEntity>().Where(predicate).SingleOrDefaultAsync();
         }
 
-        public int Update(TEntity t)
+        public async Task<int> Update(TEntity t)
         {
-            throw new NotImplementedException();
+            _context.Update(t);
+            return await _context.SaveChangesAsync();
         }
 
-        public int UpdateRange(IEnumerable<TEntity> entities)
+        public async Task<int> UpdateRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            _context.UpdateRange(entities);
+            return await _context.SaveChangesAsync();
         }
     }
 }
