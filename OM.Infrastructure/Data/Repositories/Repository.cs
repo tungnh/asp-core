@@ -24,7 +24,7 @@ namespace OM.Infrastructure.Data.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<int> AddRangeAsync(IEnumerable<TEntity> entities)
+        public async Task<int> AddRangeAsync(IList<TEntity> entities)
         {
             await _context.Set<TEntity>().AddRangeAsync(entities);
             return await _context.SaveChangesAsync();
@@ -45,17 +45,17 @@ namespace OM.Infrastructure.Data.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> FindAllAsync()
+        public async Task<IList<TEntity>> FindAllAsync()
         {
             return await _context.Set<TEntity>().AsNoTracking().ToListAsync(); 
         }
 
-        public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _context.Set<TEntity>().Where(predicate).AsNoTracking().ToListAsync();
         }
 
-        public async Task<int> RemoveRangeAsync(IEnumerable<TEntity> entities)
+        public async Task<int> RemoveRangeAsync(IList<TEntity> entities)
         {
             _context.AttachRange(entities);
             _context.Set<TEntity>().RemoveRange(entities);
@@ -73,7 +73,7 @@ namespace OM.Infrastructure.Data.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<int> UpdateRangeAsync(IEnumerable<TEntity> entities)
+        public async Task<int> UpdateRangeAsync(IList<TEntity> entities)
         {
             _context.UpdateRange(entities);
             return await _context.SaveChangesAsync();

@@ -19,14 +19,14 @@ namespace OM.Application.Data.Repositories
         /// <summary>
         /// Gets all objects from database
         /// </summary>
-        Task<IEnumerable<TEntity>> FindAllAsync();
+        Task<IList<TEntity>> FindAllAsync();
 
         /// <summary>
         /// Find object by Expression.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
         /// Create a new object to database.
@@ -56,18 +56,18 @@ namespace OM.Application.Data.Repositories
         /// Update objects changes and save to database.
         /// </summary>
         /// <param name="entities">Specified the object to save.</param>
-        Task<int> AddRangeAsync(IEnumerable<TEntity> entities);
+        Task<int> AddRangeAsync(IList<TEntity> entities);
 
         /// <summary>
         /// Update objects changes and save to database.
         /// </summary>
         /// <param name="entities"></param>
-        Task<int> UpdateRangeAsync(IEnumerable<TEntity> entities);
+        Task<int> UpdateRangeAsync(IList<TEntity> entities);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="entities"></param>
-        Task<int> RemoveRangeAsync(IEnumerable<TEntity> entities);
+        Task<int> RemoveRangeAsync(IList<TEntity> entities);
     }
 }
