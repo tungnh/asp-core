@@ -1,4 +1,4 @@
-namespace OM.Models
+namespace OM.Web.Models
 {
     public class ErrorViewModel
     {

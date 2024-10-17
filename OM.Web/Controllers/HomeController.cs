@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OM.Application.Services;
-using OM.Models;
+using OM.Web.Models;
 using System.Diagnostics;
 
-namespace OM.Controllers
+namespace OM.Web.Controllers
 {
     public class HomeController : Controller
     {

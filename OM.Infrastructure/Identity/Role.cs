@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace OM.Domain
+namespace OM.Infrastructure.Identity
 {
     public class Role : IdentityRole<int>
     {

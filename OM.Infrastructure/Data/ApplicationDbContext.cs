@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OM.Domain;
+using OM.Infrastructure.Identity;
 
 namespace OM.Infrastructure.Data;
 
