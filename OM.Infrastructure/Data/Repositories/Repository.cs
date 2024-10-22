@@ -1,10 +1,7 @@
-﻿using OM.Application.Data.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using OM.Application.Data.Repositories;
+using OM.Domain;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OM.Infrastructure.Data.Repositories
 {
@@ -17,54 +14,139 @@ namespace OM.Infrastructure.Data.Repositories
             _context = context;
         }
 
-        public int Add(TEntity t)
+        public TEntity? Find(params object?[]? keyValues)
         {
-            throw new NotImplementedException();
+            return _context.Set<TEntity>().Find(keyValues);
         }
 
-        public int AddRange(IEnumerable<TEntity> entities)
+        public async Task<TEntity?> FindAsync(params object?[]? keyValues)
         {
-            throw new NotImplementedException();
+            return await _context.Set<TEntity>().FindAsync(keyValues);
         }
 
-        public int Delete(TEntity t)
+        public TEntity? FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _context.Set<TEntity>().FirstOrDefault(predicate);
         }
 
-        public int Delete(Guid id)
+        public async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
-        public IEnumerable<TEntity> FindAll()
+        public List<TEntity> FindAll(bool ignoreDeleteFlg = false)
         {
-            return _context.Set<TEntity>().ToList(); 
+            return _context.Set<TEntity>().ToList();
+        }
+
+        public async Task<List<TEntity>> FindAllAsync(bool ignoreDeleteFlg = false)
+        {
+            return await _context.Set<TEntity>().ToListAsync();
         }
 
         public IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _context.Set<TEntity>().Where(predicate).ToList();
         }
 
-        public int RemoveRange(IEnumerable<TEntity> entities)
+        public async Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _context.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public async Task<int> AddAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            if (entity is BaseEntity entityBase)
+            {
+                entityBase.CreatedBy = "TODO";
+                entityBase.CreatedAt = DateTime.Now;
+            }
+            _context.Set<TEntity>().Add(entity);
+            return await _context.SaveChangesAsync();
         }
 
-        public int Update(TEntity t)
+        public async Task<int> AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            foreach (var entity in entities)
+            {
+                if (entity is BaseEntity entityBase)
+                {
+                    entityBase.CreatedBy = "TODO";
+                    entityBase.CreatedAt = DateTime.Now;
+                }
+            }
+            _context.Set<TEntity>().AddRange(entities);
+            return await _context.SaveChangesAsync();
         }
 
-        public int UpdateRange(IEnumerable<TEntity> entities)
+        public async Task<int> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            if (entity is BaseEntity entityBase)
+            {
+                entityBase.LastModifiedBy = "TODO";
+                entityBase.LastModifiedAt = DateTime.Now;
+            }
+            _context.Set<TEntity>().Update(entity);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateRangeAsync(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (entity is BaseEntity entityBase)
+                {
+                    entityBase.LastModifiedBy = "TODO";
+                    entityBase.LastModifiedAt = DateTime.Now;
+                }
+            }
+            _context.Set<TEntity>().UpdateRange(entities);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> RemoveAsync(TEntity entity)
+        {
+            _context.Set<TEntity>().Remove(entity);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> RemoveRangeAsync(IEnumerable<TEntity> entities)
+        {
+            _context.Set<TEntity>().RemoveRange(entities);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> SoftRemoveAsync(TEntity entity)
+        {
+            if (entity is BaseEntity entityBase)
+            {
+                entityBase.DeleteFlg = true;
+                entityBase.LastModifiedBy = "TODO";
+                entityBase.LastModifiedAt = DateTime.Now;
+            }
+            _context.Set<TEntity>().Update(entity);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> SoftRemoveRangeAsync(IEnumerable<TEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (entity is BaseEntity entityBase)
+                {
+                    entityBase.DeleteFlg = true;
+                    entityBase.LastModifiedBy = "TODO";
+                    entityBase.LastModifiedAt = DateTime.Now;
+                }
+            }
+            _context.Set<TEntity>().UpdateRange(entities);
+            return await _context.SaveChangesAsync();
+        }
+
+        public bool ExistsById(params object?[]? keyValues)
+        {
+            var entity = _context.Set<TEntity>().Find(keyValues);
+            return entity != null;
         }
     }
 }

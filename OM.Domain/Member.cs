@@ -1,6 +1,6 @@
 ﻿namespace OM.Domain;
 
-public partial class Member
+public partial class Member : BaseEntity
 {
     public int Id { get; set; }
 

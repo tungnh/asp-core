@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OM.Domain;
 using OM.Infrastructure.Identity;
+using System.Xml;
 
 namespace OM.Infrastructure.Data;
 
@@ -23,6 +24,13 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
         {
             entity.ToTable("Member");
 
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp(6) without time zone");
+            entity.Property(e => e.CreatedBy).HasMaxLength(256);
+            entity.Property(e => e.DeleteFlg).HasDefaultValue(false);
+            entity.Property(e => e.LastModifiedAt).HasColumnType("timestamp(6) without time zone");
+            entity.Property(e => e.LastModifiedBy).HasMaxLength(256);
             entity.Property(e => e.Name).HasMaxLength(256);
             entity.Property(e => e.Type)
                 .HasMaxLength(10)
@@ -73,5 +81,26 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
             // Maps to the AspNetUserRoles table
             entity.ToTable("AspNetUserRoles");
         });
+    }
+
+    public override int SaveChanges()
+    {
+        var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Modified || e.State == EntityState.Added);
+        foreach (var entry in entries)
+        {
+            if (entry.Entity is BaseEntity myEntity)
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    myEntity.CreatedAt = DateTime.Now;
+                }
+                else
+                {
+                    myEntity.LastModifiedAt = DateTime.Now;
+                }
+            }
+        }
+
+        return base.SaveChanges();
     }
 }

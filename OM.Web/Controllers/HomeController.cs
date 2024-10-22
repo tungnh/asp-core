@@ -8,18 +8,12 @@ namespace OM.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IMemberService _memberService;
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(IMemberService memberService, ILogger<HomeController> logger)
+        public HomeController()
         {
-            _memberService = memberService;
-            _logger = logger;
         }
 
         public IActionResult Index()
         {
-            var data = _memberService.GetAllMembers();
             return View();
         }
 
