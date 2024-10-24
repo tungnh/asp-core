@@ -1,4 +1,5 @@
 ﻿using OM.Application.Models.Member;
+using OM.Application.Models.Paging;
 
 namespace OM.Application.Services
 {
@@ -6,11 +7,11 @@ namespace OM.Application.Services
     {
         Task<MemberInputModel> FindAsync(int? id);
 
-        Task<List<MemberInputModel>> FindAllAsync();
+        Task<PaginatedList<MemberInputModel>> FindAllAsync(string? searchString, Pageable pageable);
 
-        Task<int> AddAsync(MemberInputModel model);
+        Task<int> AddAsync(MemberInputModel model, string userId);
 
-        Task<int> UpdateAsync(MemberInputModel model);
+        Task<int> UpdateAsync(MemberInputModel model, string userId);
 
         Task<int> RemoveAsync(int id);
     }

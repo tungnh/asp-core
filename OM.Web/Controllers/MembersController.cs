@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OM.Application.Data.Repositories;
 using OM.Application.Models.Member;
+using OM.Application.Models.Paging;
 using OM.Application.Services;
 
 namespace OM.Web.Controllers
@@ -18,9 +19,14 @@ namespace OM.Web.Controllers
         }
 
         // GET: Members
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(MemberRequestModel requestModel, Pageable pageable)
         {
-            var model = await _memberService.FindAllAsync();
+            ViewData["Name"] = requestModel.Name;
+            ViewData["Type"] = requestModel.Type;
+            ViewData["PageIndex"] = pageable.PageIndex;
+            ViewData["PageSize"] = pageable.PageSize;
+
+            var model = await _memberService.FindAllAsync(requestModel.Name, pageable);
 
             return View(model);
         }
@@ -57,7 +63,7 @@ namespace OM.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _memberService.AddAsync(model);
+                await _memberService.AddAsync(model, "TungNH");
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -95,7 +101,7 @@ namespace OM.Web.Controllers
             {
                 try
                 {
-                    await _memberService.UpdateAsync(model);
+                    await _memberService.UpdateAsync(model, "TungNH");
                 }
                 catch (DbUpdateConcurrencyException)
                 {

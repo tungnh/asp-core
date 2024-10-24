@@ -1,56 +1,55 @@
-﻿using System.Linq.Expressions;
+﻿using OM.Application.Models.Paging;
+using System.Linq.Expressions;
 
 namespace OM.Application.Data.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        TEntity? Find(params object?[]? keyValues);
-
         Task<TEntity?> FindAsync(params object?[]? keyValues);
 
-        TEntity? FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
-
         Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
-
-        List<TEntity> FindAll(bool ignoreDeleteFlg = false);
 
         /// <summary>
         /// Gets all objects from database
         /// </summary>
         Task<List<TEntity>> FindAllAsync(bool ignoreDeleteFlg = false);
 
-        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
+        Task<List<TEntity>> FindAllAsync(string[]? sort, bool ignoreDeleteFlg = false);
 
         /// <summary>
         /// Find object by Expression.
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        Task<IEnumerable<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<List<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, bool ignoreDeleteFlg = false);
+
+        Task<PaginatedList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, Pageable pageable, bool ignoreDeleteFlg = false);
+        
+        Task<List<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> predicate, string[]? sort, bool ignoreDeleteFlg = false);
 
         /// <summary>
         /// Create a new object to database.
         /// </summary>
         /// <param name="t">Specified a new object to create.</param>
-        Task<int> AddAsync(TEntity t);
+        Task<int> AddAsync(TEntity t, string userId);
 
         /// <summary>
         /// Update objects changes and save to database.
         /// </summary>
         /// <param name="entities">Specified the object to save.</param>
-        Task<int> AddRangeAsync(IEnumerable<TEntity> entities);
+        Task<int> AddRangeAsync(IEnumerable<TEntity> entities, string userId);
 
         /// <summary>
         /// Update object changes and save to database.
         /// </summary>
         /// <param name="t">Specified the object to save.</param>
-        Task<int> UpdateAsync(TEntity t);
+        Task<int> UpdateAsync(TEntity t, string? userId = null);
 
         /// <summary>
         /// Update objects changes and save to database.
         /// </summary>
         /// <param name="entities"></param>
-        Task<int> UpdateRangeAsync(IEnumerable<TEntity> entities);
+        Task<int> UpdateRangeAsync(IEnumerable<TEntity> entities, string? userId = null);
 
         /// <summary>
         /// Delete the object from database.
@@ -60,9 +59,9 @@ namespace OM.Application.Data.Repositories
 
         Task<int> RemoveRangeAsync(IEnumerable<TEntity> entities);
 
-        Task<int> SoftRemoveAsync(TEntity entity);
+        Task<int> SoftRemoveAsync(TEntity entity, string? userId = null);
 
-        Task<int> SoftRemoveRangeAsync(IEnumerable<TEntity> entities);
+        Task<int> SoftRemoveRangeAsync(IEnumerable<TEntity> entities, string? userId = null);
 
         bool ExistsById(params object?[]? keyValues);
     }

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OM.Application.Models.Member.MemberInputModel>
+﻿@using OM.Application.Models.Paging
+@model PaginatedList<OM.Application.Models.Member.MemberInputModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -10,18 +11,25 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <select name="Type">
+                @Html.Raw("<option value='0'" + ("0".Equals(ViewData["Type"]) ? " selected" : "") + ">Hê lô</option>")
+                @Html.Raw("<option value='1'" + ("1".Equals(ViewData["Type"]) ? " selected" : "") + ">Hau ai diu</option>")
+            </select>
+            <label>Find by name: <input type="text" name="Name" value="@ViewData["Name"]" /></label>
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Address</th>
             <th></th>
         </tr>
     </thead>
@@ -46,3 +54,20 @@
 }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.HasPrevious ? "disabled" : "";
+    var nextDisabled = !Model.HasNext ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageIndex="@(Model.PageIndex - 1)"
+   asp-route-pageSize="@ViewData["PageSize"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-pageIndex="@(Model.PageIndex + 1)"
+   asp-route-pageSize="@ViewData["PageSize"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

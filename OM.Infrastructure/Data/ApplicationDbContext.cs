@@ -82,25 +82,4 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
             entity.ToTable("AspNetUserRoles");
         });
     }
-
-    public override int SaveChanges()
-    {
-        var entries = ChangeTracker.Entries().Where(e => e.State == EntityState.Modified || e.State == EntityState.Added);
-        foreach (var entry in entries)
-        {
-            if (entry.Entity is BaseEntity myEntity)
-            {
-                if (entry.State == EntityState.Added)
-                {
-                    myEntity.CreatedAt = DateTime.Now;
-                }
-                else
-                {
-                    myEntity.LastModifiedAt = DateTime.Now;
-                }
-            }
-        }
-
-        return base.SaveChanges();
-    }
 }
