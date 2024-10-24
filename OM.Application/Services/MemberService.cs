@@ -27,12 +27,16 @@ namespace OM.Application.Services
             return _mapper.Map<MemberInputModel>(entity);
         }
 
-        public async Task<PaginatedList<MemberInputModel>> FindAllAsync(string? searchString, Pageable pageable)
+        public async Task<PaginatedList<MemberInputModel>> FindAllAsync(MemberRequestModel requestModel, Pageable pageable)
         {
             var predicate = PredicateBuilder.True<Member>();
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(requestModel.Name))
             {
-                predicate = predicate.And(x => x.Name.Contains(searchString));
+                predicate = predicate.And(x => x.Name.Contains(requestModel.Name));
+            }
+            if (!string.IsNullOrEmpty(requestModel.Type))
+            {
+                predicate = predicate.And(x => x.Type.Contains(requestModel.Type));
             }
             var page = await _memberRepository.FindAllAsync(predicate, pageable);
             return _mapper.Map<PaginatedList<Member>, PaginatedList<MemberInputModel>>(page);

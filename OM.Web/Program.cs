@@ -103,4 +103,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.UseStatusCodePagesWithRedirects("/Error/{0}"); //point to error page
+
 app.Run();

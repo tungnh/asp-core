@@ -7,18 +7,14 @@
 }
 
 <h1>Index</h1>
-
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            <select name="Type">
-                @Html.Raw("<option value='0'" + ("0".Equals(ViewData["Type"]) ? " selected" : "") + ">Hê lô</option>")
-                @Html.Raw("<option value='1'" + ("1".Equals(ViewData["Type"]) ? " selected" : "") + ">Hau ai diu</option>")
-            </select>
             <label>Find by name: <input type="text" name="Name" value="@ViewData["Name"]" /></label>
+            <label>Find by type: <input type="text" name="Type" value="@ViewData["Type"]" /></label>
             <input type="submit" value="Search" class="btn btn-default" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
@@ -34,24 +30,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 @{
@@ -60,12 +56,17 @@
 }
 
 <a asp-action="Index"
+   asp-route-type="@ViewData["Type"]"
+   asp-route-name="@ViewData["Name"]"
    asp-route-pageIndex="@(Model.PageIndex - 1)"
    asp-route-pageSize="@ViewData["PageSize"]"
    class="btn btn-default @prevDisabled">
     Previous
 </a>
+<span>@Html.Raw(string.Format("{0}/{1}", Model.PageIndex + 1, Model.TotalPages))</span>
 <a asp-action="Index"
+   asp-route-type="@ViewData["Type"]"
+   asp-route-name="@ViewData["Name"]"
    asp-route-pageIndex="@(Model.PageIndex + 1)"
    asp-route-pageSize="@ViewData["PageSize"]"
    class="btn btn-default @nextDisabled">

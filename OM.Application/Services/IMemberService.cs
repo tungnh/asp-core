@@ -7,7 +7,7 @@ namespace OM.Application.Services
     {
         Task<MemberInputModel> FindAsync(int? id);
 
-        Task<PaginatedList<MemberInputModel>> FindAllAsync(string? searchString, Pageable pageable);
+        Task<PaginatedList<MemberInputModel>> FindAllAsync(MemberRequestModel requestModel, Pageable pageable);
 
         Task<int> AddAsync(MemberInputModel model, string userId);
 

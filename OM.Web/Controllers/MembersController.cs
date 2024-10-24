@@ -21,12 +21,12 @@ namespace OM.Web.Controllers
         // GET: Members
         public async Task<IActionResult> Index(MemberRequestModel requestModel, Pageable pageable)
         {
+            var model = await _memberService.FindAllAsync(requestModel, pageable);
+
             ViewData["Name"] = requestModel.Name;
             ViewData["Type"] = requestModel.Type;
             ViewData["PageIndex"] = pageable.PageIndex;
             ViewData["PageSize"] = pageable.PageSize;
-
-            var model = await _memberService.FindAllAsync(requestModel.Name, pageable);
 
             return View(model);
         }
