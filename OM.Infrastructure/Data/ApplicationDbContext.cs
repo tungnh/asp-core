@@ -81,5 +81,25 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, int>
             // Maps to the AspNetUserRoles table
             entity.ToTable("AspNetUserRoles");
         });
+
+        // Seed data
+        builder.Entity<Role>()
+            .HasData(
+                new Role
+                {
+                    Id = 1,
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR",
+                    Description = "Administrator",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                },
+                new Role
+                {
+                    Id = 2,
+                    Name = "User",
+                    NormalizedName = "USER",
+                    Description = "User",
+                    ConcurrencyStamp = Guid.NewGuid().ToString()
+                });
     }
 }
