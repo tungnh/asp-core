@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OM.Application.Utils;
+using System.ComponentModel.DataAnnotations;
 
 namespace OM.Application.Models.Member
 {
@@ -6,12 +7,12 @@ namespace OM.Application.Models.Member
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Trường {0} là bắt buộc")]
-        [StringLength(256, ErrorMessage = "The {0} must be at max {1} characters long.")]
+        [Required(ErrorMessage = ErrorMessage.Required)]
+        [StringLength(256, ErrorMessage = ErrorMessage.StringLength)]
         [Display(Name = "Tên")]
         public string? Name { get; set; }
 
-        [StringLength(10, ErrorMessage = "The {0} must be at max {1} characters long.")]
+        [StringLength(10, ErrorMessage = ErrorMessage.StringLength)]
         [Display(Name = "Type")]
         public string? Type { get; set; }
 

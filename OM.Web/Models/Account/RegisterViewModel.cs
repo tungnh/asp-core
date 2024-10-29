@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OM.Application.Utils;
+using System.ComponentModel.DataAnnotations;
 
 namespace OM.Web.Models.Account
 {
@@ -14,12 +15,12 @@ namespace OM.Web.Models.Account
         public string Email { get; set; }
 
         [Required]
-        [StringLength(256, ErrorMessage = "The {0} must be at max {1} characters long.")]
+        [StringLength(256, ErrorMessage = ErrorMessage.StringLength)]
         [Display(Name = "First name")]
         public string? FirstName { get; set; }
 
         [Required]
-        [StringLength(256, ErrorMessage = "The {0} must be at max {1} characters long.")]
+        [StringLength(256, ErrorMessage = ErrorMessage.StringLength)]
         [Display(Name = "Last name")]
         public string? LastName { get; set; }
 
@@ -28,7 +29,7 @@ namespace OM.Web.Models.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = ErrorMessage.StringLengthWithMinimum, MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -39,7 +40,7 @@ namespace OM.Web.Models.Account
         /// </summary>
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = ErrorMessage.ConfirmPassword)]
         public string ConfirmPassword { get; set; }
     }
 }
