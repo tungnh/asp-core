@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using OM.Infrastructure.Identity;
 
 namespace OM.Web.Controllers
 {
+    [Authorize(Policy = "Member")]
     public class MembersController : BaseController
     {
         private readonly IMemberService _memberService;
@@ -82,7 +84,8 @@ namespace OM.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _memberService.AddAsync(model, "TungNH");
+                var user = await GetCurrentUserAsync();
+                await _memberService.AddAsync(model, user!.Id.ToString());
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -120,7 +123,8 @@ namespace OM.Web.Controllers
             {
                 try
                 {
-                    await _memberService.UpdateAsync(model, "TungNH");
+                    var user = await GetCurrentUserAsync();
+                    await _memberService.UpdateAsync(model, user!.Id.ToString());
                 }
                 catch (DbUpdateConcurrencyException)
                 {

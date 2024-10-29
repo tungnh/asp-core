@@ -12,5 +12,7 @@ namespace OM.Web.Controllers
         {
             _userManager = userManager;
         }
+
+        protected async Task<User?> GetCurrentUserAsync() => await _userManager.GetUserAsync(User);
     }
 }

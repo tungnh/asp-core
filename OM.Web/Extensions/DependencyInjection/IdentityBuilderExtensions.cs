@@ -29,7 +29,7 @@ namespace OM.Web.Extensions.DependencyInjection
 
                 // User settings.
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
+                options.User.RequireUniqueEmail = true;
             });
 
             builder.Services.ConfigureApplicationCookie(options =>
@@ -39,7 +39,7 @@ namespace OM.Web.Extensions.DependencyInjection
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
 
                 options.LoginPath = "/Account/Login";
-                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.AccessDeniedPath = "/Error/403";
                 options.SlidingExpiration = true;
             });
 
