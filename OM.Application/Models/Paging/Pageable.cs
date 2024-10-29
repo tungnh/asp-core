@@ -6,10 +6,4 @@
         public int PageSize { get; set; } = 20;
         public string[]? Sort { get; set; }
     }
-
-    public enum OrderDirection
-    {
-        ASC,
-        DESC
-    }
 }

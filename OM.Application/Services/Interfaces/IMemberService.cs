@@ -1,7 +1,7 @@
 ﻿using OM.Application.Models.Member;
 using OM.Application.Models.Paging;
 
-namespace OM.Application.Services
+namespace OM.Application.Services.Interfaces
 {
     public interface IMemberService
     {

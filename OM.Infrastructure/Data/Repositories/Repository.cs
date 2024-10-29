@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OM.Application.Data.Repositories;
 using OM.Application.Models.Paging;
+using OM.Application.Utils;
 using OM.Domain;
 using System.Linq.Expressions;
 
@@ -79,16 +80,16 @@ namespace OM.Infrastructure.Data.Repositories
                 {
                     var sortArr = itemSort.Split(",");
                     var sortProperty = sortArr[0];
-                    var sortDirection = sortArr.Length > 1 && sortArr[1].ToLower().Equals("desc") ? OrderDirection.DESC : OrderDirection.ASC;
+                    var sortDirection = sortArr.Length > 1 && sortArr[1].ToLower().Equals(OrderDirection.Desc) ? OrderDirection.Desc : OrderDirection.Asc;
                     var sortExpression = Expression.Lambda<Func<TEntity, object>>
                             (Expression.Convert(Expression.Property(paramExpression, sortProperty), typeof(object)), paramExpression);
 
                     switch (sortDirection)
                     {
-                        case OrderDirection.ASC:
+                        case OrderDirection.Asc:
                             source = isFirst ? source.OrderBy(sortExpression) : ((IOrderedQueryable<TEntity>)source).ThenBy(sortExpression);
                             break;
-                        case OrderDirection.DESC:
+                        case OrderDirection.Desc:
                             source = isFirst ? source.OrderByDescending(sortExpression) : ((IOrderedQueryable<TEntity>)source).ThenByDescending(sortExpression);
                             break;
                     }

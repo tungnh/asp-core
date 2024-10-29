@@ -12,7 +12,7 @@ namespace OM.Application.Mapper
             // Members
             CreateMap<Member, MemberInputModel>();
             CreateMap<MemberInputModel, Member>();
-
+            // PaginatedList
             CreateMap(typeof(PaginatedList<>), typeof(PaginatedList<>)).ConvertUsing(typeof(PaginatedListConverter<,>));
         }
 

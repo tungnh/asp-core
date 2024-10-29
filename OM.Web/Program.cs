@@ -1,81 +1,17 @@
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using OM.Application.Data.Queries;
-using OM.Application.Data.Repositories;
-using OM.Application.Mapper;
-using OM.Application.Services;
-using OM.Infrastructure.Data;
-using OM.Infrastructure.Data.Queries;
-using OM.Infrastructure.Data.Repositories;
-using OM.Infrastructure.Identity;
+using OM.Web.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddIdentity<User, Role>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddDefaultTokenProviders()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-// Identity configure
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // Password settings.
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequiredUniqueChars = 1;
-
-    // Lockout settings.
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
-
-    // User settings.
-    options.User.AllowedUserNameCharacters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = false;
-});
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    // Cookie settings
-    options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-
-    options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/AccessDenied";
-    options.SlidingExpiration = true;
-});
-
-// Add queries
-builder.Services.AddScoped<IMemberQuery, MemberQuery>();
-
-// Add repositories
-builder.Services.AddScoped<IMemberRepository, MemberRepository>();
-
-// Add services
-builder.Services.AddScoped<IMemberService, MemberService>();
-
-// Add email sender
-builder.Services.TryAddTransient<IEmailSender, NoOpEmailSender>();
-
-// Add mapper
-var mapperConfig = new MapperConfiguration(mc =>
-{
-    mc.AddProfile(new AutoMapperProfile());
-});
-builder.Services.AddSingleton(mapperConfig.CreateMapper());
+// Depedency Injection builder extensions
+builder.AddDBContext()
+    .AddIdentity()
+    .AddServices()
+    .AddRepositories()
+    .AddQueries()
+    .AddMapper();
 
 var app = builder.Build();
 

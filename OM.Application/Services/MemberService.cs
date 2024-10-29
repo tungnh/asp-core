@@ -3,6 +3,7 @@ using OM.Application.Data.Queries;
 using OM.Application.Data.Repositories;
 using OM.Application.Models.Member;
 using OM.Application.Models.Paging;
+using OM.Application.Services.Interfaces;
 using OM.Application.Utils;
 using OM.Domain;
 

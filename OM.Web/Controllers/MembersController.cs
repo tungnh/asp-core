@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OM.Application.Data.Repositories;
 using OM.Application.Models.Member;
 using OM.Application.Models.Paging;
-using OM.Application.Services;
+using OM.Application.Services.Interfaces;
+using OM.Infrastructure.Identity;
 
 namespace OM.Web.Controllers
 {
@@ -12,7 +15,10 @@ namespace OM.Web.Controllers
         private readonly IMemberService _memberService;
         private readonly IMemberRepository _memberRepository;
 
-        public MembersController(IMemberService memberService, IMemberRepository memberRepository)
+        public MembersController(
+            IMemberService memberService,
+            IMemberRepository memberRepository,
+            UserManager<User> userManager) : base(userManager)
         {
             _memberService = memberService;
             _memberRepository = memberRepository;
@@ -21,8 +27,15 @@ namespace OM.Web.Controllers
         // GET: Members
         public async Task<IActionResult> Index(MemberRequestModel requestModel, Pageable pageable)
         {
+            var genders = new List<Gender>()
+            {
+                new() { Id = 0, Name = "Male" },
+                new() { Id = 1, Name = "Female" }
+            };
             var model = await _memberService.FindAllAsync(requestModel, pageable);
 
+            ViewData["Genders"] = new SelectList(genders, nameof(Gender.Id), nameof(Gender.Name), requestModel.Gender);
+            ViewData["Gender"] = requestModel.Gender;
             ViewData["Name"] = requestModel.Name;
             ViewData["Type"] = requestModel.Type;
             ViewData["PageIndex"] = pageable.PageIndex;
@@ -30,6 +43,12 @@ namespace OM.Web.Controllers
 
             return View(model);
         }
+
+        public class Gender
+        {
+            public int Id { get; set; }
+            public string? Name { get; set; }
+        } 
 
         // GET: Members/Details/5
         public async Task<IActionResult> Details(int? id)
