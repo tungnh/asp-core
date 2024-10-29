@@ -72,13 +72,13 @@ namespace OM.Infrastructure.Data.Repositories
 
         private IQueryable<TEntity> OrderQueryable(IQueryable<TEntity> source, string[]? sort)
         {
-            if (sort != null)
+            if (sort != null && sort.Length != 0)
             {
                 bool isFirst = true;
                 var paramExpression = Expression.Parameter(typeof(TEntity));
                 foreach (var itemSort in sort)
                 {
-                    var sortArr = itemSort.Split(",");
+                    var sortArr = itemSort.Split(Constants.Comma);
                     var sortProperty = sortArr[0];
                     var sortDirection = sortArr.Length > 1 && sortArr[1].ToLower().Equals(OrderDirection.Desc) ? OrderDirection.Desc : OrderDirection.Asc;
                     var sortExpression = Expression.Lambda<Func<TEntity, object>>

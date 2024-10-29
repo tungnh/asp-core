@@ -1,9 +1,8 @@
-﻿using Microsoft.VisualBasic;
-
-namespace OM.Application.Utils
+﻿namespace OM.Application.Utils
 {
-    public class Constants
+    public static class Constants
     {
+        public const string Comma = ",";
     }
 
     public static class StatusCode
