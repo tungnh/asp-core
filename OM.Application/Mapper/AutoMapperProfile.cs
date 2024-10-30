@@ -9,11 +9,11 @@ namespace OM.Application.Mapper
     {
         public AutoMapperProfile()
         {
+            // PaginatedList
+            CreateMap(typeof(PaginatedList<>), typeof(PaginatedList<>)).ConvertUsing(typeof(PaginatedListConverter<,>));
             // Members
             CreateMap<Member, MemberInputModel>();
             CreateMap<MemberInputModel, Member>();
-            // PaginatedList
-            CreateMap(typeof(PaginatedList<>), typeof(PaginatedList<>)).ConvertUsing(typeof(PaginatedListConverter<,>));
         }
 
         private class PaginatedListConverter<TSource, TDestination> : ITypeConverter<PaginatedList<TSource>, PaginatedList<TDestination>>
