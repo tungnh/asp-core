@@ -6,6 +6,12 @@
         public const string Comma = ",";
     }
 
+    public static class Roles
+    {
+        public const string Administrator = "Administrator";
+        public const string User = "User";
+    }
+
     public static class StatusCode
     {
         public const int Success = 0;
