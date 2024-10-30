@@ -7,6 +7,7 @@ using OM.Web.Models.Account;
 using System.Text.Encodings.Web;
 using System.Text;
 using OM.Infrastructure.Identity;
+using OM.Application.Utils;
 
 namespace OM.Web.Controllers
 {
@@ -222,7 +223,7 @@ namespace OM.Web.Controllers
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            var statusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+            var statusMessage = result.Succeeded ? SuccessMessages.ThankConfirmEmail : ErrorMessages.ErrorConfirmEmail;
 
             TempData["StatusMessage"] = statusMessage;
             return View();

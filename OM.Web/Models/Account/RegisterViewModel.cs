@@ -15,12 +15,12 @@ namespace OM.Web.Models.Account
         public string Email { get; set; }
 
         [Required]
-        [StringLength(256, ErrorMessage = ErrorMessage.StringLength)]
+        [StringLength(256, ErrorMessage = ErrorMessages.ErrorValidationStringLength)]
         [Display(Name = "First name")]
         public string? FirstName { get; set; }
 
         [Required]
-        [StringLength(256, ErrorMessage = ErrorMessage.StringLength)]
+        [StringLength(256, ErrorMessage = ErrorMessages.ErrorValidationStringLength)]
         [Display(Name = "Last name")]
         public string? LastName { get; set; }
 
@@ -29,7 +29,7 @@ namespace OM.Web.Models.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [Required]
-        [StringLength(100, ErrorMessage = ErrorMessage.StringLengthWithMinimum, MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = ErrorMessages.ErrorValidationStringLengthWithMinimum, MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -40,7 +40,7 @@ namespace OM.Web.Models.Account
         /// </summary>
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = ErrorMessage.ConfirmPassword)]
+        [Compare("Password", ErrorMessage = ErrorMessages.ErrorValidationConfirmPassword)]
         public string ConfirmPassword { get; set; }
     }
 }

@@ -58,7 +58,7 @@ namespace OM.Application.Services
                 return await _memberRepository.UpdateAsync(entity, userId);
             }
 
-            return StatusCode.Error;
+            return EntityStateResult.Error;
         }
 
         public async Task<int> RemoveAsync(int id)
@@ -69,7 +69,7 @@ namespace OM.Application.Services
                 return await _memberRepository.RemoveAsync(entity);
             }
 
-            return StatusCode.Error;
+            return EntityStateResult.Error;
         }
     }
 }

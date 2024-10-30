@@ -7,12 +7,12 @@ namespace OM.Application.Models.Member
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = ErrorMessage.Required)]
-        [StringLength(256, ErrorMessage = ErrorMessage.StringLength)]
+        [Required(ErrorMessage = ErrorMessages.ErrorValidationRequired)]
+        [StringLength(256, ErrorMessage = ErrorMessages.ErrorValidationStringLength)]
         [Display(Name = "Tên")]
         public string? Name { get; set; }
 
-        [StringLength(10, ErrorMessage = ErrorMessage.StringLength)]
+        [StringLength(10, ErrorMessage = ErrorMessages.ErrorValidationStringLength)]
         [Display(Name = "Type")]
         public string? Type { get; set; }
 
