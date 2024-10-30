@@ -13,10 +13,9 @@ namespace OM.Infrastructure.Data.Queries
             _context = context;
         }
 
-        public List<Member> GetAllMembers()
+        public async Task<List<Member>> FindAllAsync()
         {
-            var results = _context.Members.AsNoTracking().ToList();
-            return results;
+            return await _context.Members.AsNoTracking().ToListAsync();
         }
     }
 }

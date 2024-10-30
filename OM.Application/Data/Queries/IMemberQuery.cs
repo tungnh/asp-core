@@ -4,6 +4,6 @@ namespace OM.Application.Data.Queries
 {
     public interface IMemberQuery
     {
-        List<Member> GetAllMembers();
+        Task<List<Member>> FindAllAsync();
     }
 }
