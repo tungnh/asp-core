@@ -19,8 +19,8 @@ namespace OM.Web.Controllers
             {
                 return statusCode switch
                 {
-                    403 => View("403"),
-                    404 => View("404"),
+                    403 => View("AccessDenied"),
+                    404 => View("NotFound"),
                     _ => View("Index"),
                 };
             }
