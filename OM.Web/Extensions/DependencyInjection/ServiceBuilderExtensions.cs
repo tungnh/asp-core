@@ -2,6 +2,7 @@
 using OM.Application.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using OM.Application.Services.Report;
 
 namespace OM.Web.Extensions.DependencyInjection
 {
@@ -12,6 +13,8 @@ namespace OM.Web.Extensions.DependencyInjection
             // Add email sender
             builder.Services.TryAddTransient<IEmailSender, NoOpEmailSender>();
             builder.Services.AddScoped<IMemberService, MemberService>();
+            // Report
+            builder.Services.AddScoped<IReportServiceFactory, ReportServiceFactory>();
             return builder;
         }
     }

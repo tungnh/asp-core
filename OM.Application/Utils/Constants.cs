@@ -80,4 +80,10 @@
         public const string Asc = "asc";
         public const string Desc = "desc";
     }
+
+    public static class ReportType
+    {
+        public const string RC01 = "RC01";
+        public const string RC02 = "RC02";
+    }
 }

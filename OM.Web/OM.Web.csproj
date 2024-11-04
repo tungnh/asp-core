@@ -31,4 +31,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\css\members\" />
+    <Folder Include="wwwroot\js\members\" />
+  </ItemGroup>
+
 </Project>
