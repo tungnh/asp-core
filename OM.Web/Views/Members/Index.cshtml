@@ -7,6 +7,10 @@
     var genders = (SelectList?)ViewData["Genders"];
 }
 
+@section Scripts {
+    <script type="text/javascript" src="~/js/members/index.js"></script>
+}
+
 <h1>Index</h1>
 <p>
     <a asp-action="Create">Create New</a>
@@ -19,7 +23,7 @@
             </select>
             <label>Find by name: <input type="text" name="Name" value="@ViewData["Name"]" /></label>
             <label>Find by type: <input type="text" name="Type" value="@ViewData["Type"]" /></label>
-            <input type="submit" value="Search" class="btn btn-default" /> |
+            <input type="submit" id="btnSearch" value="Search" class="btn btn-default" /> |
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
