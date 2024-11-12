@@ -7,7 +7,7 @@ namespace OM.Application.Utils
         /// <summary>
         /// Creates a predicate expression from the specified lambda expression.
         /// </summary>
-        public static Expression<Func<T, bool>> Create<T>(Expression<Func<T, bool>> predicate) { return predicate; }
+        public static Expression<Func<T, bool>> Create<T>(Expression<Func<T, bool>> expression) { return expression; }
 
         /// <summary>
         /// Creates a predicate that evaluates to true.

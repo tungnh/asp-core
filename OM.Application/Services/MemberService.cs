@@ -40,7 +40,7 @@ namespace OM.Application.Services
                 predicate = predicate.And(x => x.Type.Contains(requestModel.Type));
             }
             var page = await _memberRepository.FindAllAsync(predicate, pageable);
-            return _mapper.Map<PaginatedList<Member>, PaginatedList<MemberInputModel>>(page);
+            return _mapper.Map<PaginatedList<MemberInputModel>>(page);
         }
 
         public async Task<int> AddAsync(MemberInputModel model, string userId)
