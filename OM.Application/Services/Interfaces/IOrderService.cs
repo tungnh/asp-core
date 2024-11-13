@@ -1,5 +1,5 @@
 ﻿using OM.Application.Models.Member;
-using OM.Application.Models.Order;
+using OM.Application.Models;
 using OM.Application.Models.Paging;
 using System;
 using System.Collections.Generic;

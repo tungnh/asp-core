@@ -2,13 +2,8 @@
 using OM.Application.Data.Queries;
 using OM.Application.Data.Repositories;
 using OM.Application.Models;
-using OM.Application.Models.ProductDetail;
 using OM.Application.Models.Paging;
 using OM.Application.Utils;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OM.Domain;
 
 namespace OM.Application.Services
@@ -57,7 +52,6 @@ namespace OM.Application.Services
 
             return EntityStateResult.Error;
         }
-
         public async Task<int> RemoveAsync(int id)
         {
             var entity = await _productDetailRepository.FindAsync(id);
