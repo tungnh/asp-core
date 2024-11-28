@@ -1,7 +1,7 @@
 using OM.Web.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
-
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -13,7 +13,6 @@ builder.AddDBContext()
     .AddRepositories()
     .AddQueries()
     .AddMapper();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

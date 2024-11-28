@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OM.Application.Models;
 using OM.Application.Models.Member;
 using OM.Application.Models.Paging;
 using OM.Domain;
@@ -14,6 +15,9 @@ namespace OM.Application.Mapper
             // Members
             CreateMap<Member, MemberInputModel>();
             CreateMap<MemberInputModel, Member>();
+            // Orders
+            CreateMap<Order, OrderInputModel>();
+            CreateMap<OrderInputModel, Order>();
         }
 
         private class PaginatedListConverter<TSource, TDestination> : ITypeConverter<PaginatedList<TSource>, PaginatedList<TDestination>>

@@ -11,6 +11,9 @@ namespace OM.Application.Models
         [DisplayName("Số lượng")]
         public string? Amount { get; set; }
         [Required(ErrorMessage = ErrorMessages.ErrorValidationRequired)]
+        [DisplayName("Đơn giá")]
+        public decimal UnitPrice { get; set; }
+        [Required(ErrorMessage = ErrorMessages.ErrorValidationRequired)]
         [DisplayName("Tổng")]
         public decimal Total { get; set; }
         [Required(ErrorMessage = ErrorMessages.ErrorValidationRequired)]

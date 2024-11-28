@@ -1,0 +1,54 @@
+﻿@model IEnumerable<OM.Domain.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/order/index.js"></script>
+}
+ 
+<h1>Orders</h1>
+ 
+<div class="d-flex flex-row">
+    <div class="p-2">
+        <button asp-action="Create" id="btn-add" onclick="addRow()"><i class="fa fa-plus"></i>&nbsp; Add new</button>
+    </div> 
+    <div class="p-2">
+        <button id="btn-save" onclick="saveRow()"><i class="fa fa-plus"></i>&nbsp; Save</button>
+    </div>
+    <div class="p-2">
+        <span>Sort</span>
+        <select id="sort-order" onchange="sortChange()">
+            <option value="0" selected>Ascending</option>
+            <option value="1">Descending</option>
+        </select>
+    </div>
+</div>
+
+
+<table class="table table-bordered" onload="" id="table-order">
+    <thead>
+        <tr>
+             <th>
+                Product Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tbody-order">
+          <tr>
+             
+        </tr>
+    </tbody>
+</table>
+ 

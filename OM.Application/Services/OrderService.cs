@@ -3,27 +3,26 @@ using OM.Application.Data.Queries;
 using OM.Application.Data.Repositories;
 using OM.Application.Models;
 using OM.Application.Models.Paging;
+using OM.Application.Services.Interfaces;
 using OM.Application.Utils;
 using OM.Domain;
 
 namespace OM.Application.Services
 {
-    public class OrderService
+    public class OrderService: IOrderService
     {
-        private readonly IOrderRepository _memberRepository;
-        private readonly IOrderQuery _memberQuery;
+        private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
 
-        public OrderService(IOrderRepository memberRepository, IOrderQuery memberQuery, IMapper mapper)
+        public OrderService(IOrderRepository orderRepository,IMapper mapper)
         {
-            _memberRepository = memberRepository;
-            _memberQuery = memberQuery;
+            _orderRepository = orderRepository;
             _mapper = mapper;
         }
 
         public async Task<OrderInputModel> FindAsync(int? id)
         {
-            var entity = await _memberRepository.FindAsync(id);
+            var entity = await _orderRepository.FindAsync(id);
             return _mapper.Map<OrderInputModel>(entity);
         }
 
@@ -38,23 +37,32 @@ namespace OM.Application.Services
             //{
             //    predicate = predicate.And(x => x.Type.Contains(requestModel.Type));
             //}
-            var page = await _memberRepository.FindAllAsync(predicate, pageable);
+            var page = await _orderRepository.FindAllAsync(predicate, pageable);
             return _mapper.Map<PaginatedList<Order>, PaginatedList<OrderInputModel>>(page);
         }
 
         public async Task<int> AddAsync(OrderInputModel model, string userId)
         {
-            var entity = _mapper.Map<Order>(model);
-            return await _memberRepository.AddAsync(entity, userId);
+            try
+            {
+                var entity = _mapper.Map<Order>(model);
+                return await _orderRepository.AddAsync(entity, userId);
+            }
+            catch
+            {
+
+                throw new Exception();
+            }
+           
         }
 
         public async Task<int> UpdateAsync(OrderInputModel model, string userId)
         {
-            var entity = await _memberRepository.FindAsync(model.Id);
+            var entity = await _orderRepository.FindAsync(model.Id);
             if (entity != null)
             {
                 _mapper.Map(model, entity);
-                return await _memberRepository.UpdateAsync(entity, userId);
+                return await _orderRepository.UpdateAsync(entity, userId);
             }
 
             return EntityStateResult.Error;
@@ -62,13 +70,26 @@ namespace OM.Application.Services
 
         public async Task<int> RemoveAsync(int id)
         {
-            var entity = await _memberRepository.FindAsync(id);
+            var entity = await _orderRepository.FindAsync(id);
             if (entity != null)
             {
-                return await _memberRepository.RemoveAsync(entity);
+                return await _orderRepository.RemoveAsync(entity);
             }
 
             return EntityStateResult.Error;
+        }
+
+        public async Task<List<Order>> GetAllAsync()  
+        {
+            try
+            {
+                return await _orderRepository.FindAllAsync();
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
         }
     }
 }

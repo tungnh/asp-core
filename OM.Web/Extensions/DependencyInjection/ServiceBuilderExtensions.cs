@@ -13,6 +13,7 @@ namespace OM.Web.Extensions.DependencyInjection
             // Add email sender
             builder.Services.TryAddTransient<IEmailSender, NoOpEmailSender>();
             builder.Services.AddScoped<IMemberService, MemberService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             // Report
             builder.Services.AddScoped<IReportServiceFactory, ReportServiceFactory>();
             return builder;

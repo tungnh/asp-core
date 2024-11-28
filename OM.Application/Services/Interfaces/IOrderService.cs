@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OM.Domain;
 
 namespace OM.Application.Services.Interfaces
 {
     public interface IOrderService
     {
+        Task<List<Order>> GetAllAsync();
         Task<OrderInputModel> FindAsync(int? id);
 
         Task<PaginatedList<OrderInputModel>> FindAllAsync(OrderRequestModel requestModel, Pageable pageable);

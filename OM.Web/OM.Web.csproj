@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Orders\Create.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OM.Application\OM.Application.csproj" />
     <ProjectReference Include="..\OM.Domain\OM.Domain.csproj" />
     <ProjectReference Include="..\OM.Infrastructure\OM.Infrastructure.csproj" />
@@ -32,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\Api\" />
     <Folder Include="wwwroot\css\members\" />
     <Folder Include="wwwroot\js\members\" />
   </ItemGroup>
